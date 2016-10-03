@@ -22,7 +22,7 @@ val sset4t = sset3.incl(t)
 val sset5 = sset4h.incl(t)
 
 
-set3.foreach(println)
+set5.mostRetweeted
 
 val grrr = set6.union(sset5)
 

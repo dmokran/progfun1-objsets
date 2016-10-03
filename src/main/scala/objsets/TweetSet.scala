@@ -138,7 +138,9 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   }
 
   def mostRetweeted: Tweet = {
-
+    if (elem.retweets < left.mostRetweeted.retweets) left.mostRetweeted
+    else if (elem.retweets < right.mostRetweeted.retweets) right.mostRetweeted
+    else elem
   }
 
   /**
