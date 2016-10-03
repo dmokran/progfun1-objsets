@@ -36,6 +36,9 @@ class TweetSetSuite extends FunSuite {
   test("filter: a on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.user == "a")) === 1)
+      val bcd = set5.filter(tw => tw.user > "b")
+      assert(bcd.contains(c))
+      assert(bcd.contains(d))
     }
   }
 
@@ -66,6 +69,8 @@ class TweetSetSuite extends FunSuite {
   test("mostRetweeted: with set (5)") {
     new TestSets {
       assert(set5.mostRetweeted.retweets === 72)
+      assert(set5.mostRetweeted.user === "c")
+      assert(set5.mostRetweeted.text === "c body")
     }
   }
 
@@ -73,7 +78,8 @@ class TweetSetSuite extends FunSuite {
     new TestSets {
       val trends = set5.descendingByRetweet
       assert(!trends.isEmpty)
-      assert(trends.head.user == "a" || trends.head.user == "b")
+      assert(trends.head.user == "c")
+      assert(trends.tail.head.user == "b")
     }
   }
 
