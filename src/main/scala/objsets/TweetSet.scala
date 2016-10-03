@@ -56,7 +56,11 @@ abstract class TweetSet {
    * Question: Should we implement this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def union(that: TweetSet): TweetSet
+  def union(that: TweetSet): TweetSet = {
+    var th: TweetSet = this
+    that.foreach(tw => th = th.incl(tw))
+    th
+  }
   
   /**
    * Returns the tweet from this set which has the greatest retweet count.
@@ -111,7 +115,7 @@ abstract class TweetSet {
 class Empty extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
-  def union(that: TweetSet): TweetSet = that
+  //override def union(that: TweetSet): TweetSet = that
   def mostRetweeted: Tweet = throw new NoSuchElementException
   def descendingByRetweet: TweetList = throw new NoSuchElementException
 
@@ -133,15 +137,6 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
       right.filterAcc(p, left.filterAcc(p, acc.incl(elem)))
     else
       right.filterAcc(p, left.filterAcc(p, acc))
-  }
-
-  def union(that: TweetSet): TweetSet = {
-    var un: TweetSet = new Empty
-    def unionize(ts: TweetSet, acc: TweetSet): TweetSet = {
-    }
-    un = unionize(elem, that)
-    un = unionize(un, left)
-    un = unionize(un, right)
   }
 
   def mostRetweeted: Tweet = {
@@ -211,7 +206,7 @@ object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
 
-  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter(tw => tw.user == "gizmodo")
+  val googleTweets: TweetSet = TweetReader.allTweets.filter(tw => tw.text.contains("Android"))
   lazy val appleTweets: TweetSet = TweetReader.allTweets.filter(tw => tw.user == "engadget")
 
   /**

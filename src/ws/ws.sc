@@ -21,6 +21,8 @@ val sset4h: TweetSet = sset3.incl(h)
 val sset4t: TweetSet = sset3.incl(t)
 val sset5: TweetSet = sset4h.incl(t)
 
+val what = sset5.union(set6)
+what.foreach(println)
 
 
 
